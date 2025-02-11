@@ -1,120 +1,28 @@
-// Estado de la aplicación
+// Estado simple del carrito
 let carrito = {};
-let productos = [
-    {
-        id: 1,
-        nombre: "Crema Hidratante PsoriSant",
-        precio: 32100,
-        categoria: "cremas",
-        descripcion: "Crema hidratante especial para pieles sensibles",
-        imagen: "https://via.placeholder.com/300x200?text=Crema+Hidratante"
-    },
-    {
-        id: 2,
-        nombre: "Jabón Natural PsoriSant",
-        precio: 39100,
-        categoria: "jabones",
-        descripcion: "Jabón natural con propiedades calmantes",
-        imagen: "https://via.placeholder.com/300x200?text=Jabón+Natural"
-    }
-];
 
 // Elementos del DOM
 const domElements = {
-    productosGrid: document.getElementById('productos-grid'),
-    searchInput: document.getElementById('searchInput'),
-    priceRange: document.getElementById('priceRange'),
-    priceValue: document.getElementById('priceValue'),
+    cartBtn: document.querySelector('.cart-btn'),
     cartBadge: document.getElementById('contador-carrito'),
     cartSidebar: document.getElementById('menuCarrito'),
     cartList: document.getElementById('lista-carrito'),
     cartTotal: document.getElementById('total-carrito'),
-    emptyCartBtn: document.getElementById('btnVaciar'),
-    toast: document.getElementById('notificationToast')
+    emptyCartBtn: document.getElementById('btnVaciar')
 };
 
 // Inicialización
 document.addEventListener('DOMContentLoaded', () => {
-    initializeApp();
-    setupEventListeners();
+    actualizarCarrito();
 });
-
-function initializeApp() {
-    renderProducts();
-    updateCartBadge();
-    // Inicializar toast de Bootstrap
-    const toast = new bootstrap.Toast(domElements.toast);
-}
-
-function setupEventListeners() {
-    // Búsqueda con debounce
-    let searchTimeout;
-    domElements.searchInput.addEventListener('input', (e) => {
-        clearTimeout(searchTimeout);
-        searchTimeout = setTimeout(() => filterProducts(), 300);
-    });
-
-    // Rango de precio con throttle
-    let priceTimeout;
-    domElements.priceRange.addEventListener('input', (e) => {
-        domElements.priceValue.textContent = `$${parseInt(e.target.value).toLocaleString()}`;
-        clearTimeout(priceTimeout);
-        priceTimeout = setTimeout(() => filterProducts(), 100);
-    });
-
-    // Filtros de categoría
-    document.querySelectorAll('.category-filter input').forEach(input => {
-        input.addEventListener('change', filterProducts);
-    });
-}
-
-// Funciones de filtrado y renderizado
-function filterProducts() {
-    const searchTerm = domElements.searchInput.value.toLowerCase();
-    const maxPrice = parseInt(domElements.priceRange.value);
-    const selectedCategories = Array.from(document.querySelectorAll('.category-filter input:checked'))
-        .map(input => input.value);
-
-    const filteredProducts = productos.filter(producto => {
-        const matchesSearch = producto.nombre.toLowerCase().includes(searchTerm) ||
-                            producto.descripcion.toLowerCase().includes(searchTerm);
-        const matchesPrice = producto.precio <= maxPrice;
-        const matchesCategory = selectedCategories.length === 0 || 
-                              selectedCategories.includes(producto.categoria);
-
-        return matchesSearch && matchesPrice && matchesCategory;
-    });
-
-    renderProducts(filteredProducts);
-}
-
-function renderProducts(productsToRender = productos) {
-    const productsHTML = productsToRender.map(producto => `
-        <div class="col-md-6 col-lg-4 mb-4">
-            <div class="product-card shadow-hover">
-                <img src="${producto.imagen}" 
-                     class="product-image" 
-                     alt="${producto.nombre}"
-                     loading="lazy">
-                <div class="product-details">
-                    <h3 class="h5">${producto.nombre}</h3>
-                    <p class="text-muted small">${producto.descripcion}</p>
-                    <p class="product-price mb-3">$${producto.precio.toLocaleString()}</p>
-                    <button class="btn btn-success w-100" 
-                            onclick="agregarAlCarrito(${producto.id}, '${producto.nombre}', ${producto.precio})">
-                        <i class="fas fa-cart-plus"></i> Agregar al carrito
-                    </button>
-                </div>
-            </div>
-        </div>
-    `).join('');
-
-    domElements.productosGrid.innerHTML = productsHTML || '<p class="text-center">No se encontraron productos.</p>';
-}
 
 // Funciones del carrito
 function toggleCarrito() {
-    domElements.cartSidebar.classList.toggle('active');
+    const menuCarrito = document.getElementById('menuCarrito');
+    if (menuCarrito) {
+        menuCarrito.classList.toggle('active');
+        document.body.style.overflow = menuCarrito.classList.contains('active') ? 'hidden' : '';
+    }
 }
 
 function agregarAlCarrito(id, nombre, precio) {
@@ -127,73 +35,75 @@ function agregarAlCarrito(id, nombre, precio) {
             precio
         };
     }
-    
     actualizarCarrito();
     mostrarNotificacion('Producto agregado al carrito');
 }
 
 function actualizarCarrito() {
+    const listaCarrito = document.getElementById('lista-carrito');
+    const totalCarrito = document.getElementById('total-carrito');
+    const contadorCarrito = document.getElementById('contador-carrito');
+    const btnVaciar = document.getElementById('btnVaciar');
     let total = 0;
     let cantidadTotal = 0;
-    
-    // Actualizar lista de items
-    domElements.cartList.innerHTML = Object.entries(carrito)
-        .map(([id, item]) => {
-            const subtotal = item.precio * item.cantidad;
-            total += subtotal;
-            cantidadTotal += item.cantidad;
-            
-            return `
-                <div class="cart-item">
-                    <div class="d-flex justify-content-between align-items-center">
-                        <div>
-                            <h6 class="mb-0">${item.nombre}</h6>
-                            <p class="text-muted mb-0">$${item.precio.toLocaleString()} x ${item.cantidad}</p>
-                        </div>
-                        <div class="btn-group btn-group-sm">
-                            <button class="btn btn-outline-secondary" onclick="modificarCantidad(${id}, -1)">
-                                <i class="fas fa-minus"></i>
-                            </button>
-                            <button class="btn btn-outline-secondary" onclick="modificarCantidad(${id}, 1)">
-                                <i class="fas fa-plus"></i>
-                            </button>
+
+    if (listaCarrito) {
+        listaCarrito.innerHTML = Object.entries(carrito)
+            .map(([id, item]) => {
+                const subtotal = item.precio * item.cantidad;
+                total += subtotal;
+                cantidadTotal += item.cantidad;
+
+                return `
+                    <div class="cart-item">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <div>
+                                <h6 class="mb-0">${item.nombre}</h6>
+                                <p class="text-muted mb-0">$${item.precio.toLocaleString()} x ${item.cantidad}</p>
+                            </div>
+                            <div class="btn-group btn-group-sm">
+                                <button class="btn btn-outline-secondary" onclick="modificarCantidad(${id}, -1)">
+                                    <i class="fas fa-minus"></i>
+                                </button>
+                                <button class="btn btn-outline-secondary" onclick="modificarCantidad(${id}, 1)">
+                                    <i class="fas fa-plus"></i>
+                                </button>
+                            </div>
                         </div>
                     </div>
-                </div>
-            `;
-        }).join('');
+                `;
+            }).join('');
+    }
 
-    // Actualizar totales y badges
-    domElements.cartTotal.textContent = `$${total.toLocaleString()}`;
-    domElements.cartBadge.textContent = cantidadTotal;
-    domElements.cartBadge.style.display = cantidadTotal > 0 ? 'block' : 'none';
-    domElements.emptyCartBtn.style.display = cantidadTotal > 0 ? 'block' : 'none';
+    if (totalCarrito) totalCarrito.textContent = `$${total.toLocaleString()}`;
+    if (contadorCarrito) {
+        contadorCarrito.textContent = cantidadTotal;
+        contadorCarrito.style.display = cantidadTotal > 0 ? 'block' : 'none';
+    }
+    if (btnVaciar) btnVaciar.style.display = cantidadTotal > 0 ? 'block' : 'none';
 }
 
 function modificarCantidad(id, cambio) {
     if (!carrito[id]) return;
-    
+
     carrito[id].cantidad += cambio;
     if (carrito[id].cantidad <= 0) {
         delete carrito[id];
     }
-    
+
     actualizarCarrito();
 }
 
 function vaciarCarrito() {
     if (!confirm('¿Estás seguro de que deseas vaciar el carrito?')) return;
-    
+
     carrito = {};
     actualizarCarrito();
     mostrarNotificacion('Carrito vaciado');
 }
 
 function mostrarNotificacion(mensaje) {
-    const toastBody = document.querySelector('.toast-body');
-    toastBody.textContent = mensaje;
-    const toast = new bootstrap.Toast(domElements.toast);
-    toast.show();
+    alert(mensaje);
 }
 
 function comprarPorWhatsApp() {
@@ -205,7 +115,7 @@ function comprarPorWhatsApp() {
     let mensaje = "¡Hola! Me gustaría realizar el siguiente pedido:\n\n";
     let total = 0;
 
-    Object.values(carrito).forEach(item => {
+    Object.entries(carrito).forEach(([_, item]) => {
         const subtotal = item.precio * item.cantidad;
         mensaje += `${item.nombre} x${item.cantidad} - $${subtotal.toLocaleString()}\n`;
         total += subtotal;
@@ -213,16 +123,14 @@ function comprarPorWhatsApp() {
 
     mensaje += `\nTotal: $${total.toLocaleString()}`;
 
-    const numeroWhatsApp = "573001234567"; // Reemplazar con el número real
+    const numeroWhatsApp = "573001234567";
     const url = `https://wa.me/${numeroWhatsApp}?text=${encodeURIComponent(mensaje)}`;
-    
-    window.open(url, "_blank");
-    vaciarCarrito();
-}
 
-// Actualizar badge del carrito al inicio
-function updateCartBadge() {
-    const total = Object.values(carrito).reduce((sum, item) => sum + item.cantidad, 0);
-    domElements.cartBadge.textContent = total;
-    domElements.cartBadge.style.display = total > 0 ? 'block' : 'none';
+    // Vaciar el carrito antes de redirigir
+    carrito = {};
+    localStorage.setItem('carrito', JSON.stringify(carrito)); // Guarda el carrito vacío
+    actualizarCarrito(); // Actualiza la interfaz
+
+    // Redirigir a WhatsApp
+    window.open(url, "_blank");
 }
