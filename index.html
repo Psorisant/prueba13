@@ -3,13 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="PsoriSant - Productos naturales para el cuidado de la piel">
-    <title>PsoriSant - Tienda Natural</title>
-    <!-- Bootstrap CSS -->
+    <meta name="description" content="PsoriSant - Crema Natural para el Cuidado de la Piel">
+    <title>PsoriSant - Crema Natural</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <!-- Font Awesome -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
-    <!-- Custom CSS -->
     <link href="styles.css" rel="stylesheet">
 </head>
 <body>
@@ -22,10 +19,13 @@
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
                 <span class="navbar-toggler-icon"></span>
             </button>
-            <div class="collapse navbar-collapse" id="navbarNav">
+            <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
                 <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                     <li class="nav-item">
-                        <a class="nav-link active" href="#productos">Productos</a>
+                        <a class="nav-link" href="#producto">Producto</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#testimonios">Testimonios</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="#nosotros">Nosotros</a>
@@ -34,71 +34,117 @@
                         <a class="nav-link" href="#contacto">Contacto</a>
                     </li>
                 </ul>
-                <div class="d-flex align-items-center">
-                    <div class="search-box me-3">
-                        <input type="text" class="form-control" placeholder="Buscar productos..." id="searchInput">
-                    </div>
-                    <button class="btn cart-btn position-relative" onclick="toggleCarrito()">
-                        <i class="fas fa-shopping-cart"></i>
-                        <span class="cart-badge position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger" id="contador-carrito">
-                            0
-                        </span>
-                    </button>
-                </div>
+                <button class="btn cart-btn position-relative" onclick="toggleCarrito()">
+                    <i class="fas fa-shopping-cart"></i>
+                    <span class="cart-badge position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger" id="contador-carrito">
+                        0
+                    </span>
+                </button>
             </div>
         </div>
     </nav>
 
-    <!-- Hero Section -->
-    <section class="hero-section">
+    <!-- Product Section -->
+    <section id="producto" class="section">
         <div class="container">
+            <h2 class="text-center mb-5">Nuestro Producto</h2>
             <div class="row align-items-center">
                 <div class="col-md-6">
-                    <h1>Cuidado Natural para tu Piel</h1>
-                    <p class="lead">Descubre nuestra línea de productos naturales para el cuidado de la piel.</p>
-                    <a href="#productos" class="btn btn-success btn-lg">Ver Productos</a>
+                    <img src="https://i.ibb.co/93NMchX9/pruebaimagen.png" alt="pruebaimagen" border="0" class="product-image">
                 </div>
                 <div class="col-md-6">
-                    <img src="https://via.placeholder.com/600x400" alt="Productos naturales" class="img-fluid rounded shadow">
+                    <h3>Crema Natural PsoriSant</h3>
+                    <p class="lead">Nuestra crema natural está especialmente formulada para el cuidado de la piel sensible.</p>
+                    <p class="h3 text-success mb-4">$32,100</p>
+                    <button class="btn btn-success btn-lg w-100" onclick="agregarAlCarrito(1, 'Crema Natural PsoriSant', 32100)">
+                        <i class="fas fa-cart-plus"></i> Agregar al Carrito
+                    </button>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- Products Section -->
-    <section id="productos" class="productos-section">
+    <!-- Testimonials Section -->
+    <section id="testimonios" class="section bg-light">
         <div class="container">
-            <h2 class="text-center mb-4">Nuestros Productos</h2>
+            <h2 class="text-center mb-5">Testimonios</h2>
             <div class="row">
-                <div class="col-md-3">
-                    <!-- Filters -->
-                    <div class="filters-card">
-                        <h5>Filtros</h5>
-                        <div class="mb-3">
-                            <label class="form-label">Precio máximo</label>
-                            <input type="range" class="form-range" id="priceRange" min="0" max="100000" step="1000">
-                            <span id="priceValue">$50.000</span>
-                        </div>
-                        <div class="mb-3">
-                            <h6>Categorías</h6>
-                            <div class="form-check">
-                                <input class="form-check-input" type="checkbox" value="cremas" id="cat-cremas">
-                                <label class="form-check-label" for="cat-cremas">Cremas</label>
-                            </div>
-                            <div class="form-check">
-                                <input class="form-check-input" type="checkbox" value="jabones" id="cat-jabones">
-                                <label class="form-check-label" for="cat-jabones">Jabones</label>
-                            </div>
+                <div class="col-md-4 mb-4">
+                    <div class="testimonial-card">
+                        <img src="https://via.placeholder.com/300x200?text=Testimonio+1" class="testimonial-image" alt="Testimonio 1">
+                        <div class="testimonial-content">
+                            <p>"Excelente producto, me ayudó muchísimo con mi problema de piel. Lo recomiendo totalmente."</p>
+                            <p class="text-muted mb-0">- María G.</p>
                         </div>
                     </div>
                 </div>
-                <div class="col-md-9">
-                    <!-- Products Grid -->
-                    <div class="row g-4" id="productos-grid">
-                        <!-- Products will be loaded dynamically -->
-                        <div class="col-12 text-center">
-                            <div class="spinner-border text-success" role="status">
-                                <span class="visually-hidden">Cargando...</span>
+                <div class="col-md-4 mb-4">
+                    <div class="testimonial-card">
+                        <img src="https://via.placeholder.com/300x200?text=Testimonio+2" class="testimonial-image" alt="Testimonio 2">
+                        <div class="testimonial-content">
+                            <p>"Increíble cambio en mi piel después de usar PsoriSant. Los resultados son notables."</p>
+                            <p class="text-muted mb-0">- Carlos R.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4 mb-4">
+                    <div class="testimonial-card">
+                        <img src="https://via.placeholder.com/300x200?text=Testimonio+3" class="testimonial-image" alt="Testimonio 3">
+                        <div class="testimonial-content">
+                            <p>"Un producto natural que realmente funciona. Mi piel está mucho mejor."</p>
+                            <p class="text-muted mb-0">- Ana M.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Us Section -->
+    <section id="nosotros" class="section">
+        <div class="container">
+            <h2 class="text-center mb-5">Nosotros</h2>
+            <div class="row justify-content-center">
+                <div class="col-md-8">
+                    <div class="card shadow-sm">
+                        <div class="card-body">
+                            <p class="lead text-center">
+                                En PsoriSant, nos dedicamos a crear productos naturales de la más alta calidad para el cuidado de tu piel. 
+                                Nuestra crema está formulada con ingredientes naturales seleccionados cuidadosamente para ayudar a 
+                                personas con problemas de piel sensible. Con años de experiencia y miles de clientes satisfechos, 
+                                nos enorgullece ofrecer una solución natural y efectiva.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contacto" class="section bg-light">
+        <div class="container">
+            <h2 class="text-center mb-5">Contacto</h2>
+            <div class="row justify-content-center">
+                <div class="col-md-8">
+                    <div class="card shadow-sm">
+                        <div class="card-body text-center">
+                            <p class="lead mb-4">
+                                Estamos aquí para ayudarte. No dudes en contactarnos para cualquier consulta 
+                                sobre nuestros productos o para realizar tu pedido.
+                            </p>
+                            <p><i class="fas fa-phone me-2"></i> +57 300 123 4567</p>
+                            <p><i class="fas fa-map-marker-alt me-2"></i> Carrera 17 Número 93 - 09 Piso 3, Ibagué, Tolima</p>
+                            <div class="social-icons mt-4">
+                                <a href="https://facebook.com/your-page" target="_blank" class="me-3">
+                                    <i class="fab fa-facebook"></i>
+                                </a>
+                                <a href="https://instagram.com/your-profile" target="_blank" class="me-3">
+                                    <i class="fab fa-instagram"></i>
+                                </a>
+                                <a href="https://wa.me/573001234567" target="_blank">
+                                    <i class="fab fa-whatsapp"></i>
+                                </a>
                             </div>
                         </div>
                     </div>
@@ -118,8 +164,8 @@
         </div>
         <div class="cart-footer">
             <div class="total-section mb-3">
-                <h6>Total:</h6>
-                <h5 id="total-carrito">$0</h5>
+                <h6 class="mb-0">Total:</h6>
+                <h5 class="mb-0" id="total-carrito">$0</h5>
             </div>
             <button class="btn btn-success w-100 mb-2" onclick="comprarPorWhatsApp()">
                 <i class="fab fa-whatsapp"></i> Comprar por WhatsApp
@@ -131,29 +177,8 @@
     </div>
 
     <!-- Footer -->
-    <footer class="footer bg-light mt-5">
+    <footer class="footer">
         <div class="container py-4">
-            <div class="row">
-                <div class="col-md-4">
-                    <h5>Contacto</h5>
-                    <p><i class="fas fa-phone"></i> +57 300 123 4567</p>
-                    <p><i class="fas fa-map-marker-alt"></i> Carrera 17 Número 93 - 09 Piso 3, Ibagué, Tolima</p>
-                </div>
-                <div class="col-md-4">
-                    <h5>Horario</h5>
-                    <p>Lunes a Viernes: 9:00 AM - 6:00 PM</p>
-                    <p>Sábados: 9:00 AM - 2:00 PM</p>
-                </div>
-                <div class="col-md-4">
-                    <h5>Síguenos</h5>
-                    <div class="social-icons">
-                        <a href="#" class="me-3"><i class="fab fa-facebook"></i></a>
-                        <a href="#" class="me-3"><i class="fab fa-instagram"></i></a>
-                        <a href="#" class="me-3"><i class="fab fa-whatsapp"></i></a>
-                    </div>
-                </div>
-            </div>
-            <hr>
             <div class="row">
                 <div class="col-12 text-center">
                     <p class="mb-0">&copy; 2024 PsoriSant. Todos los derechos reservados.</p>
@@ -161,18 +186,6 @@
             </div>
         </div>
     </footer>
-
-    <!-- Notification Toast -->
-    <div class="toast-container position-fixed bottom-0 end-0 p-3">
-        <div id="notificationToast" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
-            <div class="toast-header">
-                <i class="fas fa-check-circle text-success me-2"></i>
-                <strong class="me-auto">PsoriSant</strong>
-                <button type="button" class="btn-close" data-bs-dismiss="toast"></button>
-            </div>
-            <div class="toast-body" id="toastMessage"></div>
-        </div>
-    </div>
 
     <!-- Scripts -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
