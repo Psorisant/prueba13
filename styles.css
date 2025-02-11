@@ -1,0 +1,219 @@
+:root {
+    --primary-color: #28a745;
+    --secondary-color: #6c757d;
+    --dark-color: #343a40;
+    --light-color: #f8f9fa;
+    --transition-speed: 0.3s;
+}
+
+/* General Styles */
+body {
+    font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+    padding-top: 76px;
+    background-color: #f8f9fa;
+}
+
+/* Navbar Styles */
+.navbar {
+    transition: all var(--transition-speed);
+}
+
+.navbar-brand i {
+    font-size: 1.5rem;
+}
+
+.search-box {
+    width: 300px;
+}
+
+.cart-btn {
+    background: none;
+    border: none;
+    font-size: 1.2rem;
+    color: var(--dark-color);
+    padding: 0.5rem;
+    transition: color var(--transition-speed);
+}
+
+.cart-btn:hover {
+    color: var(--primary-color);
+}
+
+.cart-badge {
+    font-size: 0.7rem;
+    padding: 0.25rem 0.5rem;
+}
+
+/* Hero Section */
+.hero-section {
+    padding: 4rem 0;
+    background-color: var(--light-color);
+}
+
+.hero-section h1 {
+    font-size: 3rem;
+    font-weight: 700;
+    margin-bottom: 1.5rem;
+}
+
+/* Products Section */
+.productos-section {
+    padding: 4rem 0;
+}
+
+.filters-card {
+    background: white;
+    padding: 1.5rem;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    position: sticky;
+    top: 90px;
+}
+
+.product-card {
+    background: white;
+    border-radius: 8px;
+    overflow: hidden;
+    transition: transform var(--transition-speed);
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.product-card:hover {
+    transform: translateY(-5px);
+}
+
+.product-image {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+}
+
+.product-details {
+    padding: 1rem;
+}
+
+.product-price {
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: var(--primary-color);
+}
+
+/* Cart Sidebar */
+.cart-sidebar {
+    position: fixed;
+    top: 0;
+    right: -400px;
+    width: 380px;
+    height: 100vh;
+    background: white;
+    box-shadow: -2px 0 5px rgba(0,0,0,0.2);
+    transition: right var(--transition-speed);
+    z-index: 1050;
+    display: flex;
+    flex-direction: column;
+}
+
+.cart-sidebar.active {
+    right: 0;
+}
+
+.cart-header {
+    padding: 1rem;
+    border-bottom: 1px solid #dee2e6;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.cart-body {
+    flex-grow: 1;
+    overflow-y: auto;
+    padding: 1rem;
+}
+
+.cart-item {
+    padding: 0.5rem 0;
+    border-bottom: 1px solid #dee2e6;
+}
+
+.cart-footer {
+    padding: 1rem;
+    border-top: 1px solid #dee2e6;
+    background: white;
+}
+
+.total-section {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+/* Footer Styles */
+.footer {
+    background: var(--light-color);
+    padding: 3rem 0;
+    margin-top: 3rem;
+}
+
+.social-icons a {
+    color: var(--dark-color);
+    font-size: 1.5rem;
+    transition: color var(--transition-speed);
+}
+
+.social-icons a:hover {
+    color: var(--primary-color);
+    text-decoration: none;
+}
+
+/* Animations */
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.fade-in {
+    animation: fadeIn var(--transition-speed) ease-out;
+}
+
+/* Toast Notification */
+.toast {
+    background: white;
+    border-left: 4px solid var(--primary-color);
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .search-box {
+        width: 100%;
+        margin-bottom: 1rem;
+    }
+    
+    .cart-sidebar {
+        width: 100%;
+        right: -100%;
+    }
+    
+    .hero-section {
+        padding: 2rem 0;
+    }
+    
+    .hero-section h1 {
+        font-size: 2rem;
+    }
+}
+
+/* Loading Spinner */
+.spinner-border {
+    width: 3rem;
+    height: 3rem;
+}
+
+/* Utilities */
+.shadow-hover {
+    transition: box-shadow var(--transition-speed);
+}
+
+.shadow-hover:hover {
+    box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+}
